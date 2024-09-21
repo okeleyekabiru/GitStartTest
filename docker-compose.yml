@@ -1,3 +1,5 @@
+version: '3.8'
+
 services:
   authentication.api:
     image: ${DOCKER_REGISTRY-}authenticationapi
@@ -7,7 +9,10 @@ services:
     ports:
       - "8080:8080"
       - "8081:8081"
-
+    environment:
+      - ConnectionStrings__DefaultConnection=Server=db;Database=AuthDb;User Id=sa;Password=your_password; # Adjust as needed
+      - Logging_Url=http://elasticsearch:9200
+      - Application_Name=AuthenticationAPI
   product.api:
     image: ${DOCKER_REGISTRY-}productapi
     build:
@@ -15,7 +20,10 @@ services:
       dockerfile: src/Product/Product.API/Dockerfile
     ports:
       - "8083:8083"
-
+    environment:
+      - ConnectionStrings__DefaultConnection=Server=db;Database=ProductDb;User Id=sa;Password=your_password; # Adjust as needed
+      - Logging_Url=http://elasticsearch:9200
+      - Application_Name=ProductAPI
   inventory.api:
     image: ${DOCKER_REGISTRY-}inventoryapi
     build:
@@ -23,3 +31,34 @@ services:
       dockerfile: src/Inventory/Inventory.API/Dockerfile
     ports:
       - "8082:8082"
+    environment:
+      - ConnectionStrings__DefaultConnection=Server=db;Database=InventoryDb;User Id=sa;Password=your_password; # Adjust as needed
+      - Logging_Url=http://elasticsearch:9200
+      - Application_Name=InventoryAPI
+  db:
+    image: mcr.microsoft.com/mssql/server
+    environment:
+      - SA_PASSWORD=your_password # Replace with a strong password
+      - ACCEPT_EULA=Y
+    ports:
+      - "1433:1433"
+    volumes:
+      - sql_data:/var/opt/mssql # Persist data
+
+  redis:
+    image: redis:alpine
+    ports:
+      - "6379:6379"
+    environment:
+      - REDIS_PASSWORD=dev_user
+      - REDIS_HOST="localhost"
+  rabbitmq:
+    image: rabbitmq:management
+    ports:
+      - "15672:15672" # RabbitMQ management UI
+      - "5672:5672"   # RabbitMQ default port
+    environment:
+      - RABBITMQ_DEFAULT_USER=dev_user
+      - RABBITMQ_DEFAULT_PASS=dev_password
+volumes:
+  sql_data:
