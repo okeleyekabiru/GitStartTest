@@ -18,4 +18,10 @@
     <ProjectReference Include="..\..\shared\GitStartFramework.Shared\GitStartFramework.Shared.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Domain\" />
+    <Folder Include="Application\" />
+    <Folder Include="Infrastruture\" />
+  </ItemGroup>
+
 </Project>

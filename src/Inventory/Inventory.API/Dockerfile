@@ -4,8 +4,7 @@
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 USER app
 WORKDIR /app
-EXPOSE 8080
-EXPOSE 8081
+EXPOSE 8082
 
 
 # This stage is used to build the service project
@@ -28,4 +27,5 @@ RUN dotnet publish "./Inventory.API.csproj" -c $BUILD_CONFIGURATION -o /app/publ
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
+ENV ASPNETCORE_HTTP_PORTS=8082
 ENTRYPOINT ["dotnet", "Inventory.API.dll"]

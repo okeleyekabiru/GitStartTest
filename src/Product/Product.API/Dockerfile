@@ -4,19 +4,18 @@
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 USER app
 WORKDIR /app
-EXPOSE 8080
-EXPOSE 8081
+EXPOSE 8083
 
 
 # This stage is used to build the service project
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["src/Product/GitStartTest.API/Product.API.csproj", "src/Product/GitStartTest.API/"]
+COPY ["src/Product/Product.API/Product.API.csproj", "src/Product/Product.API/"]
 COPY ["src/shared/GitStartFramework.Shared/GitStartFramework.Shared.csproj", "src/shared/GitStartFramework.Shared/"]
-RUN dotnet restore "./src/Product/GitStartTest.API/Product.API.csproj"
+RUN dotnet restore "./src/Product/Product.API/Product.API.csproj"
 COPY . .
-WORKDIR "/src/src/Product/GitStartTest.API"
+WORKDIR "/src/src/Product/Product.API"
 RUN dotnet build "./Product.API.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 # This stage is used to publish the service project to be copied to the final stage
@@ -28,4 +27,5 @@ RUN dotnet publish "./Product.API.csproj" -c $BUILD_CONFIGURATION -o /app/publis
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
+ENV ASPNETCORE_HTTP_PORTS=8083
 ENTRYPOINT ["dotnet", "Product.API.dll"]

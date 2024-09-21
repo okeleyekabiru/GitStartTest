@@ -4,14 +4,22 @@ services:
     build:
       context: .
       dockerfile: src/Identity/Authentication.API/Dockerfile
+    ports:
+      - "8080:8080"
+      - "8081:8081"
+
   product.api:
     image: ${DOCKER_REGISTRY-}productapi
     build:
       context: .
       dockerfile: src/Product/Product.API/Dockerfile
+    ports:
+      - "8083:8083"
+
   inventory.api:
     image: ${DOCKER_REGISTRY-}inventoryapi
     build:
       context: .
       dockerfile: src/Inventory/Inventory.API/Dockerfile
-
+    ports:
+      - "8082:8082"
