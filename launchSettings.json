@@ -1,0 +1,13 @@
+{
+  "profiles": {
+    "Docker Compose": {
+      "commandName": "DockerCompose",
+      "commandVersion": "1.0",
+      "serviceActions": {
+        "authentication.api": "StartDebugging",
+        "product.api": "StartDebugging",
+        "inventory.api": "StartDebugging"
+      }
+    }
+  }
+}

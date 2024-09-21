@@ -12,20 +12,20 @@ EXPOSE 8081
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["src/Inventory/Inventory.API/Inventory.API.csproj", "src/Inventory/Inventory.API/"]
+COPY ["src/Product/GitStartTest.API/Product.API.csproj", "src/Product/GitStartTest.API/"]
 COPY ["src/shared/GitStartFramework.Shared/GitStartFramework.Shared.csproj", "src/shared/GitStartFramework.Shared/"]
-RUN dotnet restore "./src/Inventory/Inventory.API/Inventory.API.csproj"
+RUN dotnet restore "./src/Product/GitStartTest.API/Product.API.csproj"
 COPY . .
-WORKDIR "/src/src/Inventory/Inventory.API"
-RUN dotnet build "./Inventory.API.csproj" -c $BUILD_CONFIGURATION -o /app/build
+WORKDIR "/src/src/Product/GitStartTest.API"
+RUN dotnet build "./Product.API.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 # This stage is used to publish the service project to be copied to the final stage
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./Inventory.API.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "./Product.API.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
 # This stage is used in production or when running from VS in regular mode (Default when not using the Debug configuration)
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "Inventory.API.dll"]
+ENTRYPOINT ["dotnet", "Product.API.dll"]

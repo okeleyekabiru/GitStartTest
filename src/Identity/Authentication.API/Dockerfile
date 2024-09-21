@@ -12,10 +12,11 @@ EXPOSE 8081
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["Authentication.API/Authentication.API.csproj", "Authentication.API/"]
-RUN dotnet restore "./Authentication.API/Authentication.API.csproj"
+COPY ["src/Identity/Authentication.API/Authentication.API.csproj", "src/Identity/Authentication.API/"]
+COPY ["src/shared/GitStartFramework.Shared/GitStartFramework.Shared.csproj", "src/shared/GitStartFramework.Shared/"]
+RUN dotnet restore "./src/Identity/Authentication.API/Authentication.API.csproj"
 COPY . .
-WORKDIR "/src/Authentication.API"
+WORKDIR "/src/src/Identity/Authentication.API"
 RUN dotnet build "./Authentication.API.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 # This stage is used to publish the service project to be copied to the final stage
