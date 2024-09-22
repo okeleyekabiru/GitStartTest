@@ -4,6 +4,7 @@ using Authentication.API.Services;
 using GitStartFramework.Shared.Extensions;
 using GitStartFramework.Shared.Middlewares;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.OpenApi.Models;
 using Serilog;
 using System.Reflection;
 
@@ -14,9 +15,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
 builder.Services.AddPersistence(builder.Configuration, typeof(User).Assembly);
 builder.Services.AddRedis(builder.Configuration);
+builder.Services.AddSwagger(builder.Configuration);
 builder.Services.AddRabbitMq(builder.Configuration);
 builder.Services.AddLogging(builder.Configuration);
 builder.Services.AddScoped<IUserService, UserService>();

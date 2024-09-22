@@ -1,6 +1,8 @@
-﻿namespace Inventory.API.Domain.Entities
+﻿using GitStartFramework.Shared.Persistence.Repository.interfaces;
+
+namespace Inventory.API.Domain.Entities
 {
-    public class InventoryItem
+    public class InventoryItem : IEntity
     {
         public Guid Id { get; set; }
         public Guid ProductId { get; set; }

@@ -17,11 +17,46 @@ using System.Text;
 using Serilog;
 using System.Reflection;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.OpenApi.Models;
 
 namespace GitStartFramework.Shared.Extensions
 {
     public static class Extension
     {
+        public static IServiceCollection AddSwagger(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = configuration["Application_Name"], Version = "v1" });
+
+                // Configure Swagger to use JWT authentication
+                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    In = ParameterLocation.Header,
+                    Description = "Please enter into field the word 'Bearer' followed by a space and the JWT value",
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.ApiKey
+                });
+
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement
+        {
+            {
+                new OpenApiSecurityScheme
+                {
+                    Reference = new OpenApiReference
+                    {
+                        Type = ReferenceType.SecurityScheme,
+                        Id = "Bearer"
+                    }
+                },
+                Array.Empty<string>()
+            }
+        });
+            });
+
+            return services;
+        }
+
         public static IServiceCollection AddPersistence(this IServiceCollection services, IConfiguration configuration, Assembly assembly)
         {
             var connectionString = configuration.GetConnectionString("DefaultConnection");

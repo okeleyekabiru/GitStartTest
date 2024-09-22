@@ -15,9 +15,9 @@ namespace GitStartFramework.Shared.Persistence.Repository
             DbSet = context.Set<T>();
         }
 
-        public async Task<IEnumerable<T>> GetAllAsync()
+        public async Task<IQueryable<T>> GetAllAsync()
         {
-            return await DbSet.ToListAsync();
+            return DbSet.AsQueryable();
         }
 
         public async Task<T> GetByIdAsync(object id)
