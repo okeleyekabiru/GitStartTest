@@ -4,7 +4,6 @@ using Authentication.API.Repository;
 using GitStartFramework.Shared.Exceptions;
 using GitStartFramework.Shared.Model;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 
 namespace Authentication.API.Services
 {
@@ -25,7 +24,7 @@ namespace Authentication.API.Services
         {
             if (await IsExistingUser(userRepository, email))
             {
-                throw new BadHttpRequestException("Email is already registered.");
+                throw new BadRequestException("Email is already registered.");
             }
 
             var user = new User
@@ -71,7 +70,7 @@ namespace Authentication.API.Services
             // Check if the email is already used by another user
             if (await IsExistingUser(userRepository, email) && user.Email != email)
             {
-                throw new BadHttpRequestException("Email is already registered by another user.");
+                throw new BadRequestException("Email is already registered by another user.");
             }
 
             // Update user details
@@ -95,14 +94,7 @@ namespace Authentication.API.Services
             {
                 throw new NotFoundException("User not found.");
             }
-
-            // Here, you can either delete the user or mark them as inactive
-            // To delete the user:
             await userRepository.DeleteAsync(user);
-
-            // Or if you prefer a soft delete, mark the user as inactive:
-            // user.IsActive = false;
-            // await userRepository.UpdateAsync(user);
 
             return Response<bool>.Success(true);
         }
