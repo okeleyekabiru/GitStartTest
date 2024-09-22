@@ -19,7 +19,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Domain\" />
     <Folder Include="Application\" />
     <Folder Include="Infrastruture\" />
   </ItemGroup>

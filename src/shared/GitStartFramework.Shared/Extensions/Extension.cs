@@ -2,7 +2,6 @@
 using GitStartFramework.Shared.Persistence.Repository;
 using GitStartFramework.Shared.Persistence.Repository.interfaces;
 using GitStartFramework.Shared.Redis;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -11,7 +10,6 @@ using Serilog;
 using Serilog.Events;
 using Serilog.Sinks.Elasticsearch;
 using StackExchange.Redis;
-using System.Runtime.CompilerServices;
 
 namespace GitStartFramework.Shared.Extensions
 {
@@ -28,11 +26,11 @@ namespace GitStartFramework.Shared.Extensions
             return services;
         }
 
-        public static IServiceCollection AddRabbitMq(this IServiceCollection services)
+        public static IServiceCollection AddRabbitMq(this IServiceCollection services, IConfiguration configuration)
         {
-            var rabbitMqHost = Environment.GetEnvironmentVariable("RABBITMQ_HOST") ?? "localhost";
-            var rabbitMqUsername = Environment.GetEnvironmentVariable("RABBITMQ_DEFAULT_USER") ?? "guest";
-            var rabbitMqPassword = Environment.GetEnvironmentVariable("RABBITMQ_DEFAULT_PASS") ?? "guest";
+            var rabbitMqHost = configuration["RABBITMQ_HOST"];
+            var rabbitMqUsername = configuration["RABBITMQ_DEFAULT_USER"];
+            var rabbitMqPassword = configuration["RABBITMQ_DEFAULT_PASS"];
 
             var factory = new ConnectionFactory
             {
@@ -48,10 +46,10 @@ namespace GitStartFramework.Shared.Extensions
             return services;
         }
 
-        public static IServiceCollection AddRedis(this IServiceCollection services)
+        public static IServiceCollection AddRedis(this IServiceCollection services, IConfiguration configuration)
         {
-            var redisHost = Environment.GetEnvironmentVariable("REDIS_HOST");
-            var redisPassword = Environment.GetEnvironmentVariable("REDIS_PASSWORD");
+            var redisHost = configuration["REDIS_HOST"];
+            var redisPassword = configuration["REDIS_PASSWORD"];
 
             var connectionString = $"{redisHost},password={redisPassword}";
             var redis = ConnectionMultiplexer.Connect(connectionString);

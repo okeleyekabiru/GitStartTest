@@ -10,9 +10,14 @@ services:
       - "8080:8080"
       - "8081:8081"
     environment:
-      - ConnectionStrings__DefaultConnection=Server=db;Database=AuthDb;User Id=sa;Password=your_password; # Adjust as needed
+      - ConnectionStrings__DefaultConnection=Server=db;Database=AuthDb;User Id=sa;Password=P@ssw0rd123 # Adjust as needed
       - Logging_Url=http://elasticsearch:9200
       - Application_Name=AuthenticationAPI
+      - RABBITMQ_DEFAULT_USER=dev_user
+      - RABBITMQ_DEFAULT_PASS=dev_password
+      - REDIS_PASSWORD=dev_user
+      - REDIS_HOST=redis
+      - RABBITMQ_HOST=rabbitmq
   product.api:
     image: ${DOCKER_REGISTRY-}productapi
     build:
@@ -21,9 +26,14 @@ services:
     ports:
       - "8083:8083"
     environment:
-      - ConnectionStrings__DefaultConnection=Server=db;Database=ProductDb;User Id=sa;Password=your_password; # Adjust as needed
+      - ConnectionStrings__DefaultConnection=Server=db;Database=ProductDb;User Id=sa;Password=P@ssw0rd123 # Adjust as needed
       - Logging_Url=http://elasticsearch:9200
       - Application_Name=ProductAPI
+      - RABBITMQ_DEFAULT_USER=dev_user
+      - RABBITMQ_DEFAULT_PASS=dev_password
+      - REDIS_PASSWORD=dev_user
+      - REDIS_HOST=redis
+      - RABBITMQ_HOST=rabbitmq
   inventory.api:
     image: ${DOCKER_REGISTRY-}inventoryapi
     build:
@@ -32,13 +42,18 @@ services:
     ports:
       - "8082:8082"
     environment:
-      - ConnectionStrings__DefaultConnection=Server=db;Database=InventoryDb;User Id=sa;Password=your_password; # Adjust as needed
+      - ConnectionStrings__DefaultConnection=Server=db;Database=InventoryDb;User Id=sa;Password=P@ssw0rd123; # Adjust as needed
       - Logging_Url=http://elasticsearch:9200
       - Application_Name=InventoryAPI
+      - RABBITMQ_DEFAULT_USER=dev_user
+      - RABBITMQ_DEFAULT_PASS=dev_password
+      - REDIS_PASSWORD=dev_user
+      - REDIS_HOST=redis
+      - RABBITMQ_HOST=rabbitmq
   db:
     image: mcr.microsoft.com/mssql/server
     environment:
-      - SA_PASSWORD=your_password # Replace with a strong password
+      - SA_PASSWORD=P@ssw0rd123# Replace with a strong password
       - ACCEPT_EULA=Y
     ports:
       - "1433:1433"
@@ -50,15 +65,15 @@ services:
     ports:
       - "6379:6379"
     environment:
-      - REDIS_PASSWORD=dev_user
-      - REDIS_HOST="localhost"
+     - REDIS_PASSWORD=dev_user
+     - REDIS_HOST="localhost"
   rabbitmq:
     image: rabbitmq:management
     ports:
       - "15672:15672" # RabbitMQ management UI
       - "5672:5672"   # RabbitMQ default port
     environment:
-      - RABBITMQ_DEFAULT_USER=dev_user
-      - RABBITMQ_DEFAULT_PASS=dev_password
+     - RABBITMQ_DEFAULT_USER=dev_user
+     - RABBITMQ_DEFAULT_PASS=dev_password
 volumes:
   sql_data:
