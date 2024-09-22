@@ -1,59 +1,60 @@
 ﻿using GitStartFramework.Shared.Persistence.Repository.interfaces;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Threading.Tasks;
 
 namespace GitStartFramework.Shared.Persistence.Repository
 {
     public class GenericRepository<T> : IGenericRepository<T> where T : class, IEntity
     {
         private readonly DbContext _context;
-        private readonly DbSet<T> _dbSet;
+        public readonly DbSet<T> DbSet;
 
         public GenericRepository(DbContext context)
         {
             _context = context;
-            _dbSet = context.Set<T>();
+            DbSet = context.Set<T>();
         }
 
         public async Task<IEnumerable<T>> GetAllAsync()
         {
-            return await _dbSet.ToListAsync();
+            return await DbSet.ToListAsync();
         }
 
         public async Task<T> GetByIdAsync(int id)
         {
-            return await _dbSet.FindAsync(id);
+            return await DbSet.FindAsync(id);
         }
 
         public async Task<IEnumerable<T>> FindAsync(Expression<Func<T, bool>> predicate)
         {
-            return await _dbSet.Where(predicate).ToListAsync();
+            return await DbSet.Where(predicate).ToListAsync();
         }
 
         public async Task AddAsync(T entity)
         {
-            await _dbSet.AddAsync(entity);
+            await DbSet.AddAsync(entity);
             await _context.SaveChangesAsync();
         }
 
         public async Task UpdateAsync(T entity)
         {
-            _dbSet.Update(entity);
+            DbSet.Update(entity);
             await _context.SaveChangesAsync();
         }
 
         public async Task DeleteAsync(int id)
         {
-            var entity = await _dbSet.FindAsync(id);
+            var entity = await DbSet.FindAsync(id);
             if (entity != null)
             {
-                _dbSet.Remove(entity);
+                DbSet.Remove(entity);
                 await _context.SaveChangesAsync();
             }
+        }
+
+        public async Task<bool> AnyAsync(Expression<Func<T, bool>> predicate)
+        {
+            return await DbSet.AnyAsync(predicate);
         }
     }
 }

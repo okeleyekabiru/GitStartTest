@@ -1,12 +1,17 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using GitStartFramework.Shared.Persistence.Repository.interfaces;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using System.Reflection;
 
 namespace GitStartFramework.Shared.Persistence
 {
-    public class ApplicationDbContext : DbContext
+    public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options, IConfiguration configuration) : DbContext(options)
     {
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-       : base(options)
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            var entityAssembly = Assembly.Load(configuration["Application_Name"] ?? "Inventory.API");
+
+            modelBuilder.ApplyConfigurationsFromAssembly(entityAssembly);
         }
     }
 }

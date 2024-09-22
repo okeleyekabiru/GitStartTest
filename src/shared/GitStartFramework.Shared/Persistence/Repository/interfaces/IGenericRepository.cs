@@ -12,6 +12,8 @@ namespace GitStartFramework.Shared.Persistence.Repository.interfaces
 
         Task AddAsync(T entity);
 
+        Task<bool> AnyAsync(Expression<Func<T, bool>> predicate);
+
         Task UpdateAsync(T entity);
 
         Task DeleteAsync(int id);
