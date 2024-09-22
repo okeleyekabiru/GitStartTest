@@ -12,6 +12,10 @@ namespace Authentication.API.Services
     {
         Task<Response<AuthResponse>> LoginUserAsync(string email, string password);
 
+        Task<Response<User>> UpdateUserAsync(Guid userId, string userName, string email, string newPassword);
+
+        Task<Response<bool>> DeleteUserAsync(Guid userId);
+
         Task<Response<User>> RegisterUserAsync(string userName, string email, string password);
     }
 
@@ -54,6 +58,53 @@ namespace Authentication.API.Services
             {
                 AuthToken = token,
             });
+        }
+
+        public async Task<Response<User>> UpdateUserAsync(Guid userId, string userName, string email, string newPassword)
+        {
+            var user = await userRepository.GetByIdAsync(userId);
+            if (user == null)
+            {
+                throw new NotFoundException("User not found.");
+            }
+
+            // Check if the email is already used by another user
+            if (await IsExistingUser(userRepository, email) && user.Email != email)
+            {
+                throw new BadHttpRequestException("Email is already registered by another user.");
+            }
+
+            // Update user details
+            user.Username = userName ?? user.Username;
+            user.Email = email ?? user.Email;
+
+            // If a new password is provided, hash and update it
+            if (!string.IsNullOrEmpty(newPassword))
+            {
+                user.PasswordHash = passwordHasher.HashPassword(user, newPassword);
+            }
+
+            await userRepository.UpdateAsync(user);
+            return Response<User>.Success(user);
+        }
+
+        public async Task<Response<bool>> DeleteUserAsync(Guid userId)
+        {
+            var user = await userRepository.GetByIdAsync(userId);
+            if (user == null)
+            {
+                throw new NotFoundException("User not found.");
+            }
+
+            // Here, you can either delete the user or mark them as inactive
+            // To delete the user:
+            await userRepository.DeleteAsync(user);
+
+            // Or if you prefer a soft delete, mark the user as inactive:
+            // user.IsActive = false;
+            // await userRepository.UpdateAsync(user);
+
+            return Response<bool>.Success(true);
         }
 
         private static async Task<bool> IsExistingUser(IUserRepository userRepository, string email)

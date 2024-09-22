@@ -6,7 +6,7 @@ namespace GitStartFramework.Shared.Persistence.Repository.interfaces
     {
         Task<IEnumerable<T>> GetAllAsync();
 
-        Task<T> GetByIdAsync(int id);
+        Task<T> GetByIdAsync(object id);
 
         Task<IEnumerable<T>> FindAsync(Expression<Func<T, bool>> predicate);
 
@@ -16,6 +16,6 @@ namespace GitStartFramework.Shared.Persistence.Repository.interfaces
 
         Task UpdateAsync(T entity);
 
-        Task DeleteAsync(int id);
+        Task DeleteAsync(object id);
     }
 }

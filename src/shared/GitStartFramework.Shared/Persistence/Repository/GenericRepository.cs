@@ -6,10 +6,10 @@ namespace GitStartFramework.Shared.Persistence.Repository
 {
     public class GenericRepository<T> : IGenericRepository<T> where T : class, IEntity
     {
-        private readonly DbContext _context;
+        private readonly ApplicationDbContext _context;
         public readonly DbSet<T> DbSet;
 
-        public GenericRepository(DbContext context)
+        public GenericRepository(ApplicationDbContext context)
         {
             _context = context;
             DbSet = context.Set<T>();
@@ -20,7 +20,7 @@ namespace GitStartFramework.Shared.Persistence.Repository
             return await DbSet.ToListAsync();
         }
 
-        public async Task<T> GetByIdAsync(int id)
+        public async Task<T> GetByIdAsync(object id)
         {
             return await DbSet.FindAsync(id);
         }
@@ -42,7 +42,7 @@ namespace GitStartFramework.Shared.Persistence.Repository
             await _context.SaveChangesAsync();
         }
 
-        public async Task DeleteAsync(int id)
+        public async Task DeleteAsync(object id)
         {
             var entity = await DbSet.FindAsync(id);
             if (entity != null)

@@ -1,6 +1,9 @@
 using Authentication.API.Domain.Entities;
+using Authentication.API.Repository;
+using Authentication.API.Services;
 using GitStartFramework.Shared.Extensions;
 using GitStartFramework.Shared.Middlewares;
+using Microsoft.AspNetCore.Identity;
 using Serilog;
 using System.Reflection;
 
@@ -16,7 +19,11 @@ builder.Services.AddPersistence(builder.Configuration, typeof(User).Assembly);
 builder.Services.AddRedis(builder.Configuration);
 builder.Services.AddRabbitMq(builder.Configuration);
 builder.Services.AddLogging(builder.Configuration);
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddAuth(builder.Configuration);
+builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
+builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Host.UseSerilog();
 var app = builder.Build();
 app.MigrateDatabase();

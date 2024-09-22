@@ -10,7 +10,7 @@ services:
       - "8080:8080"
       - "8081:8081"
     environment:
-      - ConnectionStrings__DefaultConnection=Server=db;Database=AuthDb;User Id=sa;Password=1StrongPwd!!;TrustServerCertificate=true; # Adjust as needed
+      - ConnectionStrings__DefaultConnection=Server=db;Database=AuthDb;User Id=sa;Password=String@1234;TrustServerCertificate=true; # Adjust as needed
       - Logging_Url=http://elasticsearch:9200
       - Application_Name=Authentication.API
       - RABBITMQ_DEFAULT_USER=dev_user
@@ -18,7 +18,7 @@ services:
       - REDIS_PASSWORD=dev_user
       - REDIS_HOST=redis
       - RABBITMQ_HOST=rabbitmq
-      - JwtSettings__Secret=SuperSecretKeyThatIsLongEnough
+      - JwtSettings__Secret=SuperSecretKeyThatIsLongEnoughjsjkasasjsaksajkaskjskj
       - JwtSettings__Issuer=MyAppIssuer
       - JwtSettings__Audience=MyAppAudience
       - JwtSettings__ExpirationMinutes=60
@@ -30,7 +30,7 @@ services:
     ports:
       - "8083:8083"
     environment:
-      - ConnectionStrings__DefaultConnection=Server=db;Database=ProductDb;User Id=sa;Password=1StrongPwd!!;TrustServerCertificate=true; # Adjust as needed
+      - ConnectionStrings__DefaultConnection=Server=db;Database=ProductDb;User Id=sa;Password=String@1234;TrustServerCertificate=true; # Adjust as needed
       - Logging_Url=http://elasticsearch:9200
       - Application_Name=Product.API
       - RABBITMQ_DEFAULT_USER=dev_user
@@ -38,7 +38,7 @@ services:
       - REDIS_PASSWORD=dev_user
       - REDIS_HOST=redis
       - RABBITMQ_HOST=rabbitmq
-      - JwtSettings__Secret=SuperSecretKeyThatIsLongEnough
+      - JwtSettings__Secret=SuperSecretKeyThatIsLongEnoughjsjkasasjsaksajkaskjskj
       - JwtSettings__Issuer=MyAppIssuer
       - JwtSettings__Audience=MyAppAudience
       - JwtSettings__ExpirationMinutes=60
@@ -50,7 +50,7 @@ services:
     ports:
       - "8082:8082"
     environment:
-      - ConnectionStrings__DefaultConnection=Server=db;Database=InventoryDb;User Id=sa;Password=1StrongPwd!!;TrustServerCertificate=true; # Adjust as needed
+      - ConnectionStrings__DefaultConnection=Server=db;Database=InventoryDb;User Id=sa;Password=String@1234;TrustServerCertificate=true; # Adjust as needed
       - Logging_Url=http://elasticsearch:9200
       - Application_Name=Inventory.API
       - RABBITMQ_DEFAULT_USER=dev_user
@@ -58,14 +58,14 @@ services:
       - REDIS_PASSWORD=dev_user
       - REDIS_HOST=redis
       - RABBITMQ_HOST=rabbitmq
-      - JwtSettings__Secret=SuperSecretKeyThatIsLongEnough
+      - JwtSettings__Secret=SuperSecretKeyThatIsLongEnoughjsjkasasjsaksajkaskjskj
       - JwtSettings__Issuer=MyAppIssuer
       - JwtSettings__Audience=MyAppAudience
       - JwtSettings__ExpirationMinutes=60
   db:
     image: mcr.microsoft.com/mssql/server
     environment:
-      - MSSQL_SA_PASSWORD=1StrongPwd!!
+      - SA_PASSWORD=String@1234
       - ACCEPT_EULA=Y
     ports:
       - "1433:1433"
