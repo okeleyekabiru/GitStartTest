@@ -41,6 +41,26 @@ Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-co
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Product.API", "src\Product\Product.API\Product.API.csproj", "{74449077-301C-4AA7-BDEE-8E82157941C4}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{98244EC9-C956-4520-8410-8AEF2E826FFD}"
+	ProjectSection(SolutionItems) = preProject
+		configmap.yaml = configmap.yaml
+		deployment-authentication.yaml = deployment-authentication.yaml
+		deployment-inventory.yaml = deployment-inventory.yaml
+		deployment-product.yaml = deployment-product.yaml
+		deployment-rabbitmq.yaml = deployment-rabbitmq.yaml
+		deployment-redis.yaml = deployment-redis.yaml
+		deployment-sql.yaml = deployment-sql.yaml
+		hpa.yaml = hpa.yaml
+		ingress.yaml = ingress.yaml
+		secret.yaml = secret.yaml
+		service-authentication.yaml = service-authentication.yaml
+		service-inventory.yaml = service-inventory.yaml
+		service-product.yaml = service-product.yaml
+		service-rabbitmq.yaml = service-rabbitmq.yaml
+		service-redis.yaml = service-redis.yaml
+		service-sql.yaml = service-sql.yaml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

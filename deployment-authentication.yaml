@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: authentication-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: authentication-api
+  template:
+    metadata:
+      labels:
+        app: authentication-api
+    spec:
+      containers:
+        - name: authentication-api
+          image: ghcr.io/<GITHUB_USERNAME>/gitstart/authenticationapi:latest
+          ports:
+            - containerPort: 8080
+            - containerPort: 8081
+          env:
+            - name: ConnectionStrings__DefaultConnection
+              value: "Server=db;Database=AuthDb;User Id=sa;Password=String@1234;TrustServerCertificate=true;"
+            - name: Logging_Url
+              value: "http://elasticsearch:9200"
+            - name: Application_Name
+              value: "Authentication.API"
+            - name: RABBITMQ_DEFAULT_USER
+              value: "dev_user"
+            - name: RABBITMQ_DEFAULT_PASS
+              value: "dev_password"
+            - name: REDIS_PASSWORD
+              value: "dev_user"
+            - name: REDIS_HOST
+              value: "redis"
+            - name: RABBITMQ_HOST
+              value: "rabbitmq"
+            - name: JwtSettings__Secret
+              value: "SuperSecretKeyThatIsLongEnoughjsjkasasjsaksajkaskjskj"
+            - name: JwtSettings__Issuer
+              value: "MyAppIssuer"
+            - name: JwtSettings__Audience
+              value: "MyAppAudience"
+            - name: JwtSettings__ExpirationMinutes
+              value: "60"

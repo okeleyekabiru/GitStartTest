@@ -33,7 +33,7 @@ This repository contains three interconnected microservices for user authenticat
 ### Clone the Repository
 
 ```bash
-git clone <repository-url>
+git clone <https://github.com/okeleyekabiru/GitStartTest>
 cd <repository-directory>
 ```
 
@@ -121,3 +121,24 @@ docker-compose down
 Contributions are welcome! Please feel free to submit a pull request or open an issue.
 
 ## License
+
+
+Here’s an improved version of your statement with more clarity and refinement:
+
+---
+
+### Improvements
+
+Given more time, I would have made the following enhancements:
+
+- **SQL Optimization**: I would showcase my SQL expertise by using raw SQL scripts for more complex queries instead of relying solely on LINQ. This would allow for better query optimization and performance.
+  
+- **Kubernetes Orchestration**: I would create comprehensive Kubernetes manifests to orchestrate the deployment of the microservices. This would include defining Deployments, Services, ConfigMaps, Secrets, and a Horizontal Pod Autoscaler to ensure seamless scaling in production environments.
+
+- **CI/CD Pipeline Completion**: The GitHub Actions pipeline would be completed to include automated deployment to Kubernetes. This would ensure a fully automated and streamlined CI/CD process, covering building, testing, containerizing, and deployment stages.
+
+- **Enhanced Unit Testing**: While I covered unit tests, I did not capture all possible negative scenarios due to time constraints. Additional testing would be added to ensure better test coverage, including edge cases.
+
+- **Validation**: FluentValidation could have been implemented to handle input validation more effectively. Due to limited time, I relied on data annotations, but FluentValidation would offer more flexibility and cleaner validation logic.
+
+- **Architecture**: I intend use rabbitMQ for communication between product and inventory, should be incase a product  is deleted the service should trigger an event to inventory to handle the side effect.

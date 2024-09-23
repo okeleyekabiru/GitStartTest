@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: authentication-config
+data:
+  Application_Name: "Authentication.API"
+  RABBITMQ_DEFAULT_USER: "dev_user"
+  RABBITMQ_HOST: "rabbitmq"
+  REDIS_HOST: "redis"
+  JwtSettings__Issuer: "MyAppIssuer"
+  JwtSettings__Audience: "MyAppAudience"
+  JwtSettings__ExpirationMinutes: "60"

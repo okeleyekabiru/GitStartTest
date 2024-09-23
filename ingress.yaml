@@ -1,0 +1,32 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: api-gateway
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+    - host: yourdomain.com
+      http:
+        paths:
+          - path: /auth
+            pathType: Prefix
+            backend:
+              service:
+                name: authentication-api
+                port:
+                  number: 8080
+          - path: /product
+            pathType: Prefix
+            backend:
+              service:
+                name: product-api
+                port:
+                  number: 8083
+          - path: /inventory
+            pathType: Prefix
+            backend:
+              service:
+                name: inventory-api
+                port:
+                  number: 8082

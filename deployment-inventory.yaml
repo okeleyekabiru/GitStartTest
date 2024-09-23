@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: inventory-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: inventory-api
+  template:
+    metadata:
+      labels:
+        app: inventory-api
+    spec:
+      containers:
+        - name: inventory-api
+          image: ghcr.io/<GITHUB_USERNAME>/gitstart//inventoryapi:latest
+          ports:
+            - containerPort: 8082
+          env:
+            - name: ConnectionStrings__DefaultConnection
+              value: "Server=db;Database=InventoryDb;User Id=sa;Password=String@1234;TrustServerCertificate=true;"
+            - name: Logging_Url
+              value: "http://elasticsearch:9200"
+            - name: Application_Name
+              value: "Inventory.API"
+            - name: RABBITMQ_DEFAULT_USER
+              value: "dev_user"
+            - name: RABBITMQ_DEFAULT_PASS
+              value: "dev_password"
+            - name: REDIS_PASSWORD
+              value: "dev_user"
+            - name: REDIS_HOST
+              value: "redis"
+            - name: RABBITMQ_HOST
+              value: "rabbitmq"
+            - name: JwtSettings__Secret
+              value: "SuperSecretKeyThatIsLongEnoughjsjkasasjsaksajkaskjskj"
+            - name: JwtSettings__Issuer
+              value: "MyAppIssuer"
+            - name: JwtSettings__Audience
+              value: "MyAppAudience"
+            - name: JwtSettings__ExpirationMinutes
+              value: "60"
